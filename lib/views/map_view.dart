@@ -5,8 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapView extends StatelessWidget {
   final LatLng initialPosition;
+  final Set<Polyline> polylones;
 
-  const MapView({Key? key, required this.initialPosition}) : super(key: key);
+  const MapView({Key? key, required this.initialPosition, required this.polylones}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +19,15 @@ class MapView extends StatelessWidget {
     return SizedBox(
         width: size.width,
         height: size.height,
-        child: GoogleMap(
-          onMapCreated: (controller) => mapBloc.add(OnMapInitilizedEvent(controller)),
-          initialCameraPosition: initialCameraPosition,
-          myLocationEnabled: true,
-          zoomControlsEnabled: false,
-          myLocationButtonEnabled: false,
+        child: Listener(
+          onPointerMove: (event) => mapBloc.add(OnStopFollowingUserEvent()),
+          child: GoogleMap(
+            onMapCreated: (controller) => mapBloc.add(OnMapInitilizedEvent(controller)),
+            initialCameraPosition: initialCameraPosition,
+            myLocationEnabled: true,
+            zoomControlsEnabled: false,
+            myLocationButtonEnabled: false,
+          ),
         ));
   }
 }
