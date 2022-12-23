@@ -5,9 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapView extends StatelessWidget {
   final LatLng initialPosition;
-  final Set<Polyline> polylones;
+  final Set<Polyline> polylines;
 
-  const MapView({Key? key, required this.initialPosition, required this.polylones}) : super(key: key);
+  const MapView({Key? key, required this.initialPosition, required this.polylines}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +27,7 @@ class MapView extends StatelessWidget {
             myLocationEnabled: true,
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
+            onCameraMove: (position) => mapBloc.mapCenter = position.target,
           ),
         ));
   }
