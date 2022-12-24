@@ -28,6 +28,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   void startFollowingUser() {
     add(OnStartFollowingUser());
     positionStream = Geolocator.getPositionStream().listen((event) {
+      if (event.latitude == state.lastKnownLocation?.latitude && event.longitude == state.lastKnownLocation?.longitude) return;
       final LatLng position = LatLng(event.latitude, event.longitude);
       add(OnNewUserLocationEvent(position));
     });

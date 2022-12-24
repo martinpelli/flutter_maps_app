@@ -13,7 +13,7 @@ class MapView extends StatelessWidget {
   Widget build(BuildContext context) {
     final mapBloc = BlocProvider.of<MapBloc>(context);
 
-    final CameraPosition initialCameraPosition = CameraPosition(target: initialPosition, zoom: 15);
+    final CameraPosition initialCameraPosition = CameraPosition(target: initialPosition, zoom: 20);
     final size = MediaQuery.of(context).size;
 
     return SizedBox(
@@ -24,6 +24,7 @@ class MapView extends StatelessWidget {
           child: GoogleMap(
             onMapCreated: (controller) => mapBloc.add(OnMapInitilizedEvent(controller)),
             initialCameraPosition: initialCameraPosition,
+            polylines: polylines,
             myLocationEnabled: true,
             zoomControlsEnabled: false,
             myLocationButtonEnabled: false,
