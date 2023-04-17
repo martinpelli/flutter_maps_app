@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_maps_app/services/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 
 import '../models/models.dart';
 

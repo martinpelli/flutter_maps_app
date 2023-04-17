@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps_app/blocs/blocs.dart';
 import 'package:flutter_maps_app/screens/screens.dart';
 import 'package:flutter_maps_app/services/services.dart';
+import 'package:flutter_maps_app/themes/themes.dart';
 
-void main() {
+Future<void> main() async {
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => LocationBloc()),
     BlocProvider(create: (context) => MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
@@ -19,6 +20,6 @@ class MapsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(navigatorKey: navKey, debugShowCheckedModeBanner: false, title: 'Maps App', home: const MapScreen());
+    return MaterialApp(navigatorKey: navKey, debugShowCheckedModeBanner: false, theme: getTheme(), title: 'Maps App', home: const MapScreen());
   }
 }

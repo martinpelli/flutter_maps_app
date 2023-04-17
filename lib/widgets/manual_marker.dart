@@ -2,8 +2,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps_app/blocs/blocs.dart';
-import 'package:flutter_maps_app/helpers/helpers.dart';
-import 'package:flutter_maps_app/main.dart';
 
 class ManualMarker extends StatelessWidget {
   const ManualMarker({Key? key}) : super(key: key);
@@ -22,9 +20,6 @@ class _ManualMarkerBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final searchBloc = BlocProvider.of<SearchBloc>(context);
-    final locationBloc = BlocProvider.of<LocationBloc>(context);
-    final mapBloc = BlocProvider.of<MapBloc>(context);
 
     return SizedBox(
       width: size.width,
@@ -41,22 +36,7 @@ class _ManualMarkerBody extends StatelessWidget {
               duration: const Duration(milliseconds: 300),
               child: MaterialButton(
                 minWidth: size.width - 120,
-                onPressed: () async {
-                  final start = locationBloc.state.lastKnownLocation;
-                  if (start == null) return;
-
-                  final end = mapBloc.mapCenter;
-                  if (end == null) return;
-
-                  showLoadingMessage(context);
-
-                  final destination = await searchBloc.getCoorsStartToEnd(start, end);
-                  mapBloc.drawRoutePolyline(destination);
-
-                  searchBloc.add(OnDeactivateManualMarkerEvent());
-
-                  Navigator.pop(MapsApp.navKey.currentContext!);
-                },
+                onPressed: () async {},
                 height: 50,
                 elevation: 0,
                 color: Colors.black,
