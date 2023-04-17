@@ -128,8 +128,8 @@ class Context {
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "short_code": shortCode == null ? null : shortCode,
-        "wikidata": wikidata == null ? null : wikidata,
+        "short_code": shortCode,
+        "wikidata": wikidata,
         "text_es": textEs,
         "text": text,
         "language": language,
@@ -174,13 +174,13 @@ class Properties {
   String toJson() => json.encode(toMap());
 
   factory Properties.fromMap(Map<String, dynamic> json) => Properties(
-        wikidata: json["wikidata"] == null ? null : json["wikidata"],
-        accuracy: json["accuracy"] == null ? null : json["accuracy"],
+        wikidata: json["wikidata"],
+        accuracy: json["accuracy"],
       );
 
   Map<String, dynamic> toMap() => {
-        "wikidata": wikidata == null ? null : wikidata,
-        "accuracy": accuracy == null ? null : accuracy,
+        "wikidata": wikidata,
+        "accuracy": accuracy,
       };
 }
 

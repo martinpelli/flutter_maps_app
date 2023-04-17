@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps_app/blocs/blocs.dart';
 import 'package:flutter_maps_app/views/views.dart';
-import 'package:flutter_maps_app/widgets/btn_toggle_user_route.dart';
 import 'package:flutter_maps_app/widgets/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -19,14 +18,12 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     locationBloc = BlocProvider.of<LocationBloc>(context);
-    locationBloc.getCurrentPosition();
-    locationBloc.startFollowingUser();
+    locationBloc.getStartingPosition();
     super.initState();
   }
 
   @override
   void dispose() {
-    locationBloc.stopFollowingUser();
     super.dispose();
   }
 
@@ -46,14 +43,7 @@ class _MapScreenState extends State<MapScreen> {
 
               return SingleChildScrollView(
                 child: Stack(
-                  children: [
-                    MapView(
-                      initialPosition: locationState.lastKnownLocation!,
-                      polylines: polylines.values.toSet(),
-                    ),
-                    const SearchBar(),
-                    const ManualMarker()
-                  ],
+                  children: [MapView(initialPosition: locationState.lastKnownLocation!, polylines: polylines.values.toSet()), const ManualMarker()],
                 ),
               );
             },
@@ -61,8 +51,7 @@ class _MapScreenState extends State<MapScreen> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton:
-          Column(mainAxisAlignment: MainAxisAlignment.end, children: const [BtnToggleUserroute(), BtnFollowUser(), BtnCurrentLocation()]),
+      floatingActionButton: Column(mainAxisAlignment: MainAxisAlignment.end, children: const [BtnFollowUser()]),
     );
   }
 }

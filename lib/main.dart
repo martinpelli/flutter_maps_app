@@ -6,7 +6,6 @@ import 'package:flutter_maps_app/services/services.dart';
 
 void main() {
   runApp(MultiBlocProvider(providers: [
-    BlocProvider(create: (_) => GpsBloc()),
     BlocProvider(create: (_) => LocationBloc()),
     BlocProvider(create: (context) => MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
     BlocProvider(create: (_) => SearchBloc(trafficService: TrafficService())),
@@ -16,8 +15,10 @@ void main() {
 class MapsApp extends StatelessWidget {
   const MapsApp({super.key});
 
+  static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(debugShowCheckedModeBanner: false, title: 'Maps App', home: LoadingScreen());
+    return MaterialApp(navigatorKey: navKey, debugShowCheckedModeBanner: false, title: 'Maps App', home: const MapScreen());
   }
 }

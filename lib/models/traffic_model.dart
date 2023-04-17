@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final trafficResponse = trafficResponseFromMap(jsonString);
-
 import 'dart:convert';
 
 class TrafficResponse {
@@ -47,7 +43,7 @@ class Route {
     required this.geometry,
   });
 
-  final bool countryCrossed;
+  final bool? countryCrossed;
   final String weightName;
   final double weight;
   final double duration;

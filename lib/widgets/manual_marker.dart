@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps_app/blocs/blocs.dart';
 import 'package:flutter_maps_app/helpers/helpers.dart';
+import 'package:flutter_maps_app/main.dart';
 
 class ManualMarker extends StatelessWidget {
   const ManualMarker({Key? key}) : super(key: key);
@@ -54,7 +55,7 @@ class _ManualMarkerBody extends StatelessWidget {
 
                   searchBloc.add(OnDeactivateManualMarkerEvent());
 
-                  Navigator.pop(context);
+                  Navigator.pop(MapsApp.navKey.currentContext!);
                 },
                 height: 50,
                 elevation: 0,
