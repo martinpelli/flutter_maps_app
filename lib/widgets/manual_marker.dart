@@ -1,9 +1,10 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps_app/blocs/blocs.dart';
 import 'package:flutter_maps_app/constants/constants.dart';
+import 'package:flutter_maps_app/models/models.dart';
+import 'package:flutter_maps_app/services/services.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 class ManualMarker extends StatelessWidget {
@@ -16,7 +17,11 @@ class ManualMarker extends StatelessWidget {
             previous.currentAmountOfDestinations != current.currentAmountOfDestinations || previous.isDepositPlaced != current.isDepositPlaced,
         builder: (context, state) {
           return _ManualMarkerBody(
-              isDepositPlaced: state.isDepositPlaced, destinations: state.currentAmountOfDestinations, totalDestinations: state.amountOfDestinations);
+            isDepositPlaced: state.isDepositPlaced,
+            destinations: state.currentAmountOfDestinations,
+            totalDestinations: state.amountOfDestinations,
+            amountOfVehicles: state.amountOfVehicles,
+          );
         });
   }
 }
@@ -25,8 +30,11 @@ class _ManualMarkerBody extends StatelessWidget {
   final bool isDepositPlaced;
   final int destinations;
   final int totalDestinations;
+  final int amountOfVehicles;
 
-  const _ManualMarkerBody({Key? key, required this.isDepositPlaced, required this.destinations, required this.totalDestinations}) : super(key: key);
+  const _ManualMarkerBody(
+      {Key? key, required this.isDepositPlaced, required this.destinations, required this.totalDestinations, required this.amountOfVehicles})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,16 +85,22 @@ class _ManualMarkerBody extends StatelessWidget {
                     final MapBloc mapBloc = BlocProvider.of<MapBloc>(context);
 
                     final LatLng latLng = mapBloc.mapboxMapController!.cameraPosition!.target;
-                    print(latLng);
+                    mapBloc.depositAndDestinations.add(latLng);
 
                     if (!isDepositPlaced) {
                       mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.2, iconImage: "assets/deposit.png"));
-                      //guardar las cordernas
                       mapBloc.add(OnDepositPlaced());
                     } else {
                       mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.7, iconImage: "assets/destination.png"));
-                      //guardar las cordernas
                       mapBloc.add(OnDestinationPlaced());
+                      if (destinations == totalDestinations - 1) {
+                        final MatrixResponse matrixResponse = await MatrixService.getDistanceMatrix(mapBloc.depositAndDestinations);
+
+                        final RouteRequest routeRequest = RouteRequest(cantVehiculos: amountOfVehicles, matrizDistancia: matrixResponse.distances);
+                        final RouteResponse routeResponse = await RouteService.getRoute(routeRequest);
+
+                        print(routeResponse);
+                      }
                     }
                   },
                   child: Text(

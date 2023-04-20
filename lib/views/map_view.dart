@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_maps_app/themes/themes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_maps_app/blocs/blocs.dart';
+import 'package:flutter_maps_app/constants/constants.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 class MapView extends StatelessWidget {
@@ -15,6 +17,14 @@ class MapView extends StatelessWidget {
     return SizedBox(
         width: size.width,
         height: size.height,
-        child: MapboxMap(styleString: "mapbox://styles/mapbox/navigation-night-v1", initialCameraPosition: initialCameraPosition, accessToken: ""));
+        child: MapboxMap(
+            trackCameraPosition: true,
+            onMapCreated: (controller) {
+              final MapBloc mapBloc = BlocProvider.of<MapBloc>(context);
+              mapBloc.mapboxMapController = controller;
+            },
+            styleString: "mapbox://styles/mapbox/navigation-night-v1",
+            initialCameraPosition: initialCameraPosition,
+            accessToken: accessToken));
   }
 }
