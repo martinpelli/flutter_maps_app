@@ -8,7 +8,7 @@ class RouteResponse {
   });
 
   final List<List<int>> rutasVehiculos;
-  final int distanciaTotal;
+  final double distanciaTotal;
   final List<int> distanciaRutas;
 
   factory RouteResponse.fromJson(String str) => RouteResponse.fromMap(json.decode(str));

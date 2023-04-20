@@ -6,7 +6,7 @@ class RouteRequest {
     required this.cantVehiculos,
   });
 
-  final List<List<double>> matrizDistancia;
+  final List<List<int>> matrizDistancia;
   final int cantVehiculos;
 
   factory RouteRequest.fromJson(String str) => RouteRequest.fromMap(json.decode(str));
@@ -14,7 +14,7 @@ class RouteRequest {
   String toJson() => json.encode(toMap());
 
   factory RouteRequest.fromMap(Map<String, dynamic> json) => RouteRequest(
-        matrizDistancia: List<List<double>>.from(json["matriz_distancia"].map((x) => List<double>.from(x.map((x) => x?.toDouble())))),
+        matrizDistancia: List<List<int>>.from(json["matriz_distancia"].map((x) => List<int>.from(x.map((x) => x)))),
         cantVehiculos: json["cant_vehiculos"],
       );
 

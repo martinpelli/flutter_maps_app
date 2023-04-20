@@ -93,10 +93,13 @@ class _ManualMarkerBody extends StatelessWidget {
                     } else {
                       mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.7, iconImage: "assets/destination.png"));
                       mapBloc.add(OnDestinationPlaced());
+
                       if (destinations == totalDestinations - 1) {
                         final MatrixResponse matrixResponse = await MatrixService.getDistanceMatrix(mapBloc.depositAndDestinations);
 
-                        final RouteRequest routeRequest = RouteRequest(cantVehiculos: amountOfVehicles, matrizDistancia: matrixResponse.distances);
+                        final RouteRequest routeRequest = RouteRequest(
+                            cantVehiculos: amountOfVehicles,
+                            matrizDistancia: matrixResponse.distances.map((list) => list.map((e) => e.toInt()).toList()).toList());
                         final RouteResponse routeResponse = await RouteService.getRoute(routeRequest);
 
                         print(routeResponse);
