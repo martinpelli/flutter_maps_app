@@ -35,14 +35,22 @@ class _MapScreenState extends State<MapScreen> {
           if (locationState.lastKnownLocation == null) return const Center(child: CircularProgressIndicator());
 
           return BlocBuilder<MapBloc, MapState>(
+            buildWhen: (previous, current) =>
+                previous.amountOfDestinations != current.amountOfDestinations ||
+                previous.amountOfVehicles != current.amountOfVehicles ||
+                (current.currentAmountOfDestinations == current.amountOfDestinations),
             builder: (context, mapState) {
               return SingleChildScrollView(
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     MapView(initialPosition: locationState.lastKnownLocation!),
-                    const ManualMarker(),
-                    if (!mapState.isPuttingCoords) const StartForm()
+                    if ((mapState.currentAmountOfDestinations == mapState.amountOfDestinations && mapState.currentAmountOfDestinations != 0))
+                      Container()
+                    else if (mapState.isPuttingCoords)
+                      const ManualMarker()
+                    else
+                      const StartForm()
                   ],
                 ),
               );

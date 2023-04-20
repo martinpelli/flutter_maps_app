@@ -7,6 +7,13 @@ abstract class MapEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OnToggleUserRoute extends MapEvent {}
+class OnStartToPutCoords extends MapEvent {
+  final int amountOfVehicles;
+  final int amountOfDestinations;
 
-class OnStartToPutCoords extends MapEvent {}
+  const OnStartToPutCoords({required this.amountOfVehicles, required this.amountOfDestinations});
+}
+
+class OnDepositPlaced extends MapEvent {}
+
+class OnDestinationPlaced extends MapEvent {}

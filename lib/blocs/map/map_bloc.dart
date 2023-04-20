@@ -1,24 +1,33 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_maps_app/blocs/blocs.dart';
-import 'package:flutter_maps_app/models/models.dart';
-import 'package:flutter_maps_app/themes/themes.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 part 'map_event.dart';
 part 'map_state.dart';
 
 class MapBloc extends Bloc<MapEvent, MapState> {
-  final LocationBloc locationBloc;
-  LatLng? mapCenter;
+  MapboxMapController? mapboxMapController;
+  List<LatLng> depositAndDestinations = [];
 
-  MapBloc({required this.locationBloc}) : super(const MapState()) {
-    on<OnToggleUserRoute>((event, emit) => emit(state.copyWith(showMyRoute: !state.showMyRoute)));
+  MapBloc() : super(const MapState()) {
+    on<OnStartToPutCoords>(_onStartToPutCoords);
 
-    on<OnStartToPutCoords>((event, emit) => state.copyWith(isPuttingCoords: true));
+    on<OnDepositPlaced>(_onDepositPlaced);
+
+    on<OnDestinationPlaced>(_onDestinationPlaced);
+  }
+
+  FutureOr<void> _onStartToPutCoords(OnStartToPutCoords event, Emitter<MapState> emit) {
+    emit(state.copyWith(isPuttingCoords: true, amountOfDestinations: event.amountOfDestinations, amountOfVehicles: event.amountOfVehicles));
+  }
+
+  FutureOr<void> _onDepositPlaced(OnDepositPlaced event, Emitter<MapState> emit) {
+    emit(state.copyWith(isDepositPlaced: true));
+  }
+
+  FutureOr<void> _onDestinationPlaced(OnDestinationPlaced event, Emitter<MapState> emit) {
+    emit(state.copyWith(currentAmountOfDestinations: state.currentAmountOfDestinations + 1));
   }
 }

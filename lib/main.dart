@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps_app/blocs/blocs.dart';
 import 'package:flutter_maps_app/screens/screens.dart';
-import 'package:flutter_maps_app/services/services.dart';
 import 'package:flutter_maps_app/themes/themes.dart';
 
 Future<void> main() async {
   runApp(MultiBlocProvider(providers: [
     BlocProvider(create: (_) => LocationBloc()),
-    BlocProvider(create: (context) => MapBloc(locationBloc: BlocProvider.of<LocationBloc>(context))),
-    BlocProvider(create: (_) => SearchBloc(trafficService: TrafficService())),
+    BlocProvider(create: (context) => MapBloc()),
   ], child: const MapsApp()));
 }
 

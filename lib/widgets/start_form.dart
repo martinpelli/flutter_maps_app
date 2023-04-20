@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_maps_app/blocs/blocs.dart';
 import 'package:flutter_maps_app/constants/constants.dart';
 
 class StartForm extends StatelessWidget {
@@ -37,6 +39,12 @@ class StartForm extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
+                      final MapBloc mapBloc = BlocProvider.of<MapBloc>(context);
+                      final int amountOfVehicles = int.tryParse(_vehiclesAmountController.text)!;
+                      final int amountOfDestinations = int.tryParse(_destinationsAmountController.text)!;
+                      mapBloc.add(OnStartToPutCoords(amountOfVehicles: amountOfVehicles, amountOfDestinations: amountOfDestinations));
+                      _destinationsAmountController.clear();
+                      _vehiclesAmountController.clear();
                     },
                     child: const Text("Confirmar"))
               ],
