@@ -88,10 +88,10 @@ class _ManualMarkerBody extends StatelessWidget {
                     mapBloc.depositAndDestinations.add(latLng);
 
                     if (!isDepositPlaced) {
-                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.3, iconImage: "assets/deposit.png"));
+                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.2, iconImage: "assets/deposit.png"));
                       mapBloc.add(OnDepositPlaced());
                     } else {
-                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.9, iconImage: "assets/destination.png"));
+                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.8, iconImage: "assets/destination.png"));
                       mapBloc.add(OnDestinationPlaced());
 
                       if (destinations == totalDestinations - 1) {
@@ -123,14 +123,17 @@ class _ManualMarkerBody extends StatelessWidget {
                           for (int i = 1; i <= routeIndexOfVehicle.sublist(1, routeIndexOfVehicle.length - 1).length; i++) {
                             List<Symbol> symbols = mapBloc.mapboxMapController!.symbols.toList();
 
+                            final Symbol symbol =
+                                symbols.firstWhere((symbol) => symbol.options.geometry == mapBloc.depositAndDestinations[routeIndexOfVehicle[i]]);
+
                             mapBloc.mapboxMapController!.updateSymbol(
-                                symbols[routeIndexOfVehicle[i]],
-                                symbols[routeIndexOfVehicle[i]].options.copyWith(SymbolOptions(
-                                      textColor: '#FFFFFF',
-                                      textSize: 15,
-                                      textOffset: const Offset(0, 1.5),
-                                      textField: (i).toString(),
-                                    )));
+                                symbol,
+                                symbol.options.copyWith(SymbolOptions(
+                                  textColor: '#FFFFFF',
+                                  textSize: 15,
+                                  textOffset: const Offset(0, 1.5),
+                                  textField: (i).toString(),
+                                )));
                           }
                         }
                       }
