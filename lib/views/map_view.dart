@@ -11,7 +11,7 @@ class MapView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CameraPosition initialCameraPosition = CameraPosition(target: initialPosition, zoom: 17);
+    final CameraPosition initialCameraPosition = CameraPosition(target: initialPosition, zoom: 14);
     final size = MediaQuery.of(context).size;
 
     return SizedBox(

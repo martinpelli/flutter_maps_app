@@ -91,7 +91,7 @@ class _ManualMarkerBody extends StatelessWidget {
                       mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.3, iconImage: "assets/deposit.png"));
                       mapBloc.add(OnDepositPlaced());
                     } else {
-                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.8, iconImage: "assets/destination.png"));
+                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.9, iconImage: "assets/destination.png"));
                       mapBloc.add(OnDestinationPlaced());
 
                       if (destinations == totalDestinations - 1) {
@@ -102,7 +102,37 @@ class _ManualMarkerBody extends StatelessWidget {
                             matrizDistancia: matrixResponse.distances.map((list) => list.map((e) => e.toInt()).toList()).toList());
                         final RouteResponse routeResponse = await RouteService.getRoute(routeRequest);
 
-                        print(routeResponse);
+                        final List<LatLng> placesPoistions = mapBloc.depositAndDestinations;
+
+                        int index = 0;
+                        for (List<int> routeIndexOfVehicle in routeResponse.rutasVehiculos) {
+                          Color lineColor = Colors.primaries[index % Colors.primaries.length];
+                          index++;
+                          List<LatLng> positionsToVisit = [];
+                          for (int indexOfPlaceToVisit in routeIndexOfVehicle) {
+                            positionsToVisit.add(placesPoistions[indexOfPlaceToVisit]);
+                          }
+
+                          final CoordsResponse coordsResponse = await CoordsService.getCoordsOfRoute(positionsToVisit);
+                          final List<List<double>> coords = coordsResponse.routes.first.geometry.coordinates;
+                          final List<LatLng> geometry = coords.map((latLng) => LatLng(latLng.last, latLng.first)).toList();
+
+                          LineOptions line = LineOptions(draggable: false, lineColor: lineColor.toHexStringRGB(), lineWidth: 7, geometry: geometry);
+                          mapBloc.mapboxMapController!.addLine(line);
+
+                          for (int i = 1; i <= routeIndexOfVehicle.sublist(1, routeIndexOfVehicle.length - 1).length; i++) {
+                            List<Symbol> symbols = mapBloc.mapboxMapController!.symbols.toList();
+
+                            mapBloc.mapboxMapController!.updateSymbol(
+                                symbols[routeIndexOfVehicle[i]],
+                                symbols[routeIndexOfVehicle[i]].options.copyWith(SymbolOptions(
+                                      textColor: '#FFFFFF',
+                                      textSize: 15,
+                                      textOffset: const Offset(0, 1.5),
+                                      textField: (i).toString(),
+                                    )));
+                          }
+                        }
                       }
                     }
                   },
