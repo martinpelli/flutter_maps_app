@@ -88,10 +88,10 @@ class _ManualMarkerBody extends StatelessWidget {
                     mapBloc.depositAndDestinations.add(latLng);
 
                     if (!isDepositPlaced) {
-                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.2, iconImage: "assets/deposit.png"));
+                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.3, iconImage: "assets/deposit.png"));
                       mapBloc.add(OnDepositPlaced());
                     } else {
-                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.7, iconImage: "assets/destination.png"));
+                      mapBloc.mapboxMapController!.addSymbol(SymbolOptions(geometry: latLng, iconSize: 0.8, iconImage: "assets/destination.png"));
                       mapBloc.add(OnDestinationPlaced());
 
                       if (destinations == totalDestinations - 1) {
