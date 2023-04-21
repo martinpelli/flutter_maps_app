@@ -17,3 +17,11 @@ class OnStartToPutCoords extends MapEvent {
 class OnDepositPlaced extends MapEvent {}
 
 class OnDestinationPlaced extends MapEvent {}
+
+class OnClearAll extends MapEvent {}
+
+class OnLoading extends MapEvent {
+  final bool isLoading;
+
+  const OnLoading(this.isLoading);
+}

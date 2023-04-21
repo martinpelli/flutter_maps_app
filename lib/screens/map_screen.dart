@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps_app/blocs/blocs.dart';
+import 'package:flutter_maps_app/constants/color_scheme.dart';
 import 'package:flutter_maps_app/views/views.dart';
 import 'package:flutter_maps_app/widgets/widgets.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
@@ -38,15 +39,18 @@ class _MapScreenState extends State<MapScreen> {
             buildWhen: (previous, current) =>
                 previous.amountOfDestinations != current.amountOfDestinations ||
                 previous.amountOfVehicles != current.amountOfVehicles ||
-                (current.currentAmountOfDestinations == current.amountOfDestinations),
+                (current.currentAmountOfDestinations == current.amountOfDestinations) ||
+                previous.isLoading != current.isLoading,
             builder: (context, mapState) {
               return SingleChildScrollView(
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
                     MapView(initialPosition: locationState.lastKnownLocation!),
-                    if ((mapState.currentAmountOfDestinations == mapState.amountOfDestinations && mapState.currentAmountOfDestinations != 0))
-                      Container()
+                    if (mapState.isLoading)
+                      const Center(child: CircularProgressIndicator(color: Colors.white))
+                    else if ((mapState.currentAmountOfDestinations == mapState.amountOfDestinations && mapState.currentAmountOfDestinations != 0))
+                      const Exit()
                     else if (mapState.isPuttingCoords)
                       const ManualMarker()
                     else

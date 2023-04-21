@@ -7,6 +7,7 @@ class MapState extends Equatable {
   final int amountOfDestinations;
   final bool isDepositPlaced;
   final int currentAmountOfDestinations;
+  final bool isLoading;
 
   const MapState(
       {this.isMapInitialized = false,
@@ -14,7 +15,8 @@ class MapState extends Equatable {
       this.amountOfVehicles = 0,
       this.amountOfDestinations = 0,
       this.isDepositPlaced = false,
-      this.currentAmountOfDestinations = 0});
+      this.currentAmountOfDestinations = 0,
+      this.isLoading = false});
 
   MapState copyWith(
           {bool? isMapInitialized,
@@ -23,16 +25,19 @@ class MapState extends Equatable {
           int? amountOfVehicles,
           int? amountOfDestinations,
           bool? isDepositPlaced,
-          int? currentAmountOfDestinations}) =>
+          int? currentAmountOfDestinations,
+          bool? isLoading}) =>
       MapState(
-          isMapInitialized: isMapInitialized ?? this.isMapInitialized,
-          isPuttingCoords: isPuttingCoords ?? this.isPuttingCoords,
-          amountOfVehicles: amountOfVehicles ?? this.amountOfVehicles,
-          amountOfDestinations: amountOfDestinations ?? this.amountOfDestinations,
-          isDepositPlaced: isDepositPlaced ?? this.isDepositPlaced,
-          currentAmountOfDestinations: currentAmountOfDestinations ?? this.currentAmountOfDestinations);
+        isMapInitialized: isMapInitialized ?? this.isMapInitialized,
+        isPuttingCoords: isPuttingCoords ?? this.isPuttingCoords,
+        amountOfVehicles: amountOfVehicles ?? this.amountOfVehicles,
+        amountOfDestinations: amountOfDestinations ?? this.amountOfDestinations,
+        isDepositPlaced: isDepositPlaced ?? this.isDepositPlaced,
+        currentAmountOfDestinations: currentAmountOfDestinations ?? this.currentAmountOfDestinations,
+        isLoading: isLoading ?? this.isLoading,
+      );
 
   @override
   List<Object?> get props =>
-      [isMapInitialized, isPuttingCoords, amountOfVehicles, amountOfDestinations, isDepositPlaced, currentAmountOfDestinations];
+      [isMapInitialized, isPuttingCoords, amountOfVehicles, amountOfDestinations, isDepositPlaced, currentAmountOfDestinations, isLoading];
 }

@@ -17,6 +17,10 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<OnDepositPlaced>(_onDepositPlaced);
 
     on<OnDestinationPlaced>(_onDestinationPlaced);
+
+    on<OnClearAll>(_onClearAll);
+
+    on<OnLoading>(_onLoading);
   }
 
   FutureOr<void> _onStartToPutCoords(OnStartToPutCoords event, Emitter<MapState> emit) {
@@ -29,5 +33,16 @@ class MapBloc extends Bloc<MapEvent, MapState> {
 
   FutureOr<void> _onDestinationPlaced(OnDestinationPlaced event, Emitter<MapState> emit) {
     emit(state.copyWith(currentAmountOfDestinations: state.currentAmountOfDestinations + 1));
+  }
+
+  FutureOr<void> _onClearAll(OnClearAll event, Emitter<MapState> emit) {
+    depositAndDestinations.clear();
+    mapboxMapController!.clearLines();
+    mapboxMapController!.clearSymbols();
+    emit(const MapState());
+  }
+
+  FutureOr<void> _onLoading(OnLoading event, Emitter<MapState> emit) {
+    emit(state.copyWith(isLoading: event.isLoading));
   }
 }

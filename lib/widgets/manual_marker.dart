@@ -95,6 +95,8 @@ class _ManualMarkerBody extends StatelessWidget {
                       mapBloc.add(OnDestinationPlaced());
 
                       if (destinations == totalDestinations - 1) {
+                        mapBloc.add(const OnLoading(true));
+
                         final MatrixResponse matrixResponse = await MatrixService.getDistanceMatrix(mapBloc.depositAndDestinations);
 
                         final RouteRequest routeRequest = RouteRequest(
@@ -136,6 +138,8 @@ class _ManualMarkerBody extends StatelessWidget {
                                 )));
                           }
                         }
+
+                        mapBloc.add(const OnLoading(false));
                       }
                     }
                   },
