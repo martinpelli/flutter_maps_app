@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_maps_app/blocs/blocs.dart';
-import 'package:flutter_maps_app/constants/color_scheme.dart';
 import 'package:flutter_maps_app/views/views.dart';
 import 'package:flutter_maps_app/widgets/widgets.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  final int amountOfVehicles;
+  final int amountOfDestinations;
+  const MapScreen({super.key, required this.amountOfVehicles, required this.amountOfDestinations});
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -20,6 +21,10 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     locationBloc = BlocProvider.of<LocationBloc>(context);
     locationBloc.add(const OnNewLocationEvent(LatLng(-31.5373428, -68.5248677)));
+
+    final MapBloc mapBloc = BlocProvider.of<MapBloc>(context);
+    mapBloc.add(OnStartToPutCoords(amountOfVehicles: widget.amountOfVehicles, amountOfDestinations: widget.amountOfDestinations));
+
     super.initState();
   }
 
@@ -53,8 +58,6 @@ class _MapScreenState extends State<MapScreen> {
                       const Exit()
                     else if (mapState.isPuttingCoords)
                       const ManualMarker()
-                    else
-                      const StartForm()
                   ],
                 ),
               );

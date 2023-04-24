@@ -172,7 +172,11 @@ class _BtnBack extends StatelessWidget {
             padding: const EdgeInsets.all(5),
             constraints: const BoxConstraints(),
             icon: const Icon(Icons.arrow_back_ios_new, color: fourthColor, size: 20),
-            onPressed: () {},
+            onPressed: () {
+              final MapBloc mapBloc = BlocProvider.of<MapBloc>(context);
+              mapBloc.add(OnClearAll());
+              Navigator.of(context).pop();
+            },
           ),
         ),
       ),

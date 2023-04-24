@@ -18,6 +18,6 @@ class MapsApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(navigatorKey: navKey, debugShowCheckedModeBanner: false, theme: getTheme(), title: 'Maps App', home: const MapScreen());
+    return MaterialApp(navigatorKey: navKey, debugShowCheckedModeBanner: false, theme: getTheme(), title: 'Maps App', home: const WelcomeScreen());
   }
 }

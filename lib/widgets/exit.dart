@@ -20,6 +20,7 @@ class Exit extends StatelessWidget {
             onPressed: () {
               final MapBloc mapBloc = BlocProvider.of<MapBloc>(context);
               mapBloc.add(OnClearAll());
+              Navigator.of(context).pop();
             },
             padding: const EdgeInsets.only(left: 6.5),
             icon: const Icon(Icons.arrow_back_ios, color: fourthColor, size: 18)),
